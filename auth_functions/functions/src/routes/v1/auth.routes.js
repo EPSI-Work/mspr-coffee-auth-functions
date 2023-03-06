@@ -6,7 +6,7 @@ const { Router } = require("express");
 
 const V1AuthRouter = Router();
 
-V1AuthRouter.get("/signInWithEmail", V1SignInWithEmail);
-V1AuthRouter.get("/validateQrCode", V1ValidateQrCode);
+V1AuthRouter.post("/signInWithEmail", V1SignInWithEmail);
+V1AuthRouter.post("/validateQrCode", V1ValidateQrCode);
 
 exports.V1AuthRouter = V1AuthRouter;

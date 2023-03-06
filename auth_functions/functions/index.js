@@ -8,3 +8,5 @@ app.use(express.json());
 app.use("/auth/v1", V1AuthRouter);
 
 exports.api = functions.region("europe-west1").https.onRequest(app);
+
+exports.app = app;
