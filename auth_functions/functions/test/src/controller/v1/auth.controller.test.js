@@ -5,15 +5,19 @@ const { app } = require("functions/index.js");
 
 //echo the path to the test file
 
-//Start the express app
-app.listen(3000, () => {});
-
 describe("V1SignInWithEmail", () => {
-    it("should return a message when given an email address", async() => {
+    it("should return a success message when the email parameter is given.", async() => {
         const email = "test@test.com";
         const response = await request(app)
             .post("/auth/v1/signInWithEmail")
-            .send({ email });
+            .send({ email: email });
         expect(response.status).toBe(200);
+    });
+
+    it("should return an error when the email parameter is missing.", async() => {
+        const response = await request(app)
+            .post("/auth/v1/signInWithEmail")
+            .send({});
+        expect(response.status).toBe(400);
     });
 });
