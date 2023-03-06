@@ -1,9 +1,10 @@
 const functions = require("firebase-functions");
+const express = require("express");
+const { V1AuthRouter } = require("./src/routes/v1/auth.routes");
 
-// // Create and deploy your first functions
-// // https://firebase.google.com/docs/functions/get-started
-//
-// exports.helloWorld = functions.https.onRequest((request, response) => {
-//   functions.logger.info("Hello logs!", {structuredData: true});
-//   response.send("Hello from Firebase!");
-// });
+const app = express();
+
+app.use(express.json());
+app.use("/auth/v1", V1AuthRouter);
+
+exports.api = functions.region("europe-west1").https.onRequest(app);
