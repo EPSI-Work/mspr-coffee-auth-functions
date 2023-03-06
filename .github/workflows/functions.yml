@@ -1,0 +1,31 @@
+name: Deploy to Firebase Prod
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build and Deploy to Firebase Prod
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+      - name: Install Firebase CLI
+        run: curl -sL https://firebase.tools | bash
+      - name: Find Function Directories
+        id: find-dirs
+        run: echo "::set-output name=dirs::$(find . -type d -name 'functions')"
+      - name: Deploy Functions
+        run: |
+          for dir in ${{ steps.find-dirs.outputs.dirs }}; do
+            echo "Installing dependencies in directory $dir"
+            npm install --prefix $dir
+            echo "Deploying functions in directory $dir"
+            cd $dir
+            firebase deploy --only functions --project ${{ secrets.PROJECT_ID }} --token "${{ secrets.FIREBASE_TOKEN }}"
+          done
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+          PROJECT_ID: ${{ secrets.PROJECT_ID }}

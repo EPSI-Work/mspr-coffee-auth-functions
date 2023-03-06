@@ -1,1 +1,0 @@
-# mspr-coffee-auth-functions
