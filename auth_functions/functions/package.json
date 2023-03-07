@@ -8,8 +8,8 @@
         "deploy": "firebase deploy --only functions",
         "logs": "firebase functions:log",
         "import-firestore": "sh ./import-firestore.sh",
-        "emulate": "firebase emulators:start --import ./import --export-on-exit",
-        "test": "firebase emulators:exec --import ./import 'npm run test'"
+        "emulate": "kill-port --port 8080,5001,9099 && firebase emulators:start --import ./import --export-on-exit",
+        "test": "kill-port --port 8080,5001,9099 && firebase emulators:exec --import ./import 'jest --detectOpenHandles'"
     },
     "engines": {
         "node": "16"

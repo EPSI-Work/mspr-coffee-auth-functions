@@ -27,4 +27,11 @@ describe("V1SignInWithEmail", () => {
         });
         expect(response.status).toBe(400);
     });
+
+    it("should return an error when the email given doesn't exist in the database.", async() => {
+        const response = await request(app).post("/auth/v1/signInWithEmail").send({
+            email: "test",
+        });
+        expect(response.status).toBe(400);
+    });
 });
