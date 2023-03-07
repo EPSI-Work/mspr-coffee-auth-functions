@@ -27,7 +27,7 @@ exports.V1ValidateQrCode = async(request, response) => {
     });
 };
 
-exports.verifyFirebaseToken = functions
+exports.V1VerifyFirebaseToken = functions
   .region("europe-west1")
   .https.onRequest((request, response) => {
     const firebaseToken = request.body.firebaseToken;
@@ -46,7 +46,7 @@ exports.verifyFirebaseToken = functions
           .verifyIdToken(firebaseToken)
           .then(async (decodedToken) => {
             functions.logger.info("Coucou");
-            const user = await admin.auth().getUser(decodedToken.uid);
+            const user = await admin.auth().getUser(decodedToken.user_id);
             functions.logger.info("Firebase token is valid.", {
               user: user.toJSON(),
             });
