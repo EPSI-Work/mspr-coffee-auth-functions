@@ -2,7 +2,6 @@ const { validationResult } = require("express-validator");
 const { auth } = require("firebase-admin");
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
-admin.initializeApp();
 
 //This function check if the user is already registered in firebase auth. Then it send an email to the user with a link to validate the email address.
 exports.V1SignInWithEmail = async(request, response) => {
