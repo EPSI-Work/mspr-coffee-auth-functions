@@ -1,3 +1,4 @@
 node_modules/
 import/
 firebase-export*/
+package-lock.json
