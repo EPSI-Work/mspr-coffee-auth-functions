@@ -6,7 +6,7 @@ const { app } = require("functions/index.js");
 //echo the path to the test file
 
 describe("V1SignInWithEmail", () => {
-    it("should return a success message when the email parameter is given.", async() => {
+    it("should return a success message when the email parameter is given.", async () => {
         const email = "test@test.com";
         const response = await request(app)
             .post("/auth/v1/signInWithEmail")
@@ -14,24 +14,25 @@ describe("V1SignInWithEmail", () => {
         expect(response.status).toBe(200);
     }, 6000);
 
-    it("should return an error when the email parameter is missing.", async() => {
+    it("should return an error when the email parameter is missing.", async () => {
         const response = await request(app)
             .post("/auth/v1/signInWithEmail")
             .send({});
         expect(response.status).toBe(400);
     }, 6000);
 
-    it("should return an error when the email parameter is not a valid email.", async() => {
+    it("should return an error when the email parameter is not a valid email.", async () => {
         const response = await request(app).post("/auth/v1/signInWithEmail").send({
             email: "test",
         });
         expect(response.status).toBe(400);
     }, 6000);
 
-    it("should return an error when the email given doesn't exist in the database.", async() => {
+    it("should return a success message when the email is send.", async () => {
         const response = await request(app).post("/auth/v1/signInWithEmail").send({
-            email: "test",
+            email: "test@test.com",
         });
-        expect(response.status).toBe(400);
+        expect(response.status).toBe(200);
     }, 6000);
+
 });
