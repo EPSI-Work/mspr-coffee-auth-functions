@@ -8,8 +8,8 @@ firebase.initializeApp();
 const app = express();
 
 app.use(express.json());
-app.use("/auth/v1", V1AuthRouter);
+app.use("/v1", V1AuthRouter);
 
-exports.api = functions.region("europe-west1").https.onRequest(app);
+exports.auth = functions.region("europe-west1").https.onRequest(app);
 
 exports.app = app;
