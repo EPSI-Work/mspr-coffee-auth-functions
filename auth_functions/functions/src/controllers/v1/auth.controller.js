@@ -1,5 +1,6 @@
 const { validationResult } = require("express-validator");
 const { auth } = require("firebase-admin");
+
 const qrcode = require("qrcode");
 require("dotenv").config();
 const functions = require("firebase-functions");
@@ -17,8 +18,8 @@ exports.V1SignInWithEmail = async (request, response) => {
     const { email } = request.body;
     const user = await auth().getUserByEmail(email);
     const firebaseToken = await auth().createCustomToken(user.uid);
-
-    const url = `https://${process.env.domain}/api/v1/auth/validateQrCode?firebaseToken=${firebaseToken}`;
+    console.log(firebaseToken)
+    const url = `https://${process.env.BASE_URL}/v1/auth/validateQrCode?firebaseToken=${firebaseToken}`;
 
     if (!user) {
         return response.status(400).json({
@@ -28,8 +29,8 @@ exports.V1SignInWithEmail = async (request, response) => {
 
     const mail = new Mail()
     const mailOptions = {
-        from: process.env.from,
-        to: process.env.from, // a remplacer par l'adresse du mec pplus tard
+        from: process.env.FROM,
+        to: process.env.FROM, // a remplacer par l'adresse du mec pplus tard
         subject: "Hello ✔",
         text: "Hello world?",
         html: `<b>Hello world?</b> Bonjour ${email}  voici votre url de redirection afin de scanner votre qrcode: ${url}`

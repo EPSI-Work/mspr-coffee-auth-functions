@@ -12,8 +12,8 @@ exports.Mail = class Mail {
                 ciphers: "SSLv3",
             },
             auth: {
-                user: process.env.from,
-                pass: process.env.passwd,
+                user: process.env.FROM,
+                pass: process.env.PASSWD,
             },
         });
     }
