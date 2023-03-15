@@ -24,6 +24,16 @@ jobs:
             npm install --prefix $dir
             echo "Deploying functions in directory $dir"
             cd $dir
+            firebase functions:config:set \
+            app.credentials_file_name="credentials" \
+            app.email_username="${{ secrets.EMAIL_USERNAME }}" \
+            app.email_password="${{ secrets.EMAIL_PASSWORD }}" \
+            app.email_host="${{ secrets.EMAIL_HOST }}" \
+            app.email_from="${{ secrets.EMAIL_FROM }}" \
+            app.base_url="$BASE_URL" \
+            --project ${{ secrets.PROJECT_ID }} \
+            --token "${{ secrets.FIREBASE_TOKEN }}"
+            firebase deploy --only functions:config --project ${{ secrets.PROJECT_ID }} --token "${{ secrets.FIREBASE_TOKEN }}"
             firebase deploy --only functions --project ${{ secrets.PROJECT_ID }} --token "${{ secrets.FIREBASE_TOKEN }}"
           done
         env:

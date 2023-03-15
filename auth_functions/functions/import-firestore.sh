@@ -23,3 +23,4 @@ export_production_firebase_to_emulator() {
 #Run bash functions, either delete previous bucket and local folder if exists for update or just export clean way
 delete_previous_version_if_exists && export_production_firebase_to_emulator ||
 export_production_firebase_to_emulator
+
