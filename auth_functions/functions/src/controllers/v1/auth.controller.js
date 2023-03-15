@@ -4,7 +4,7 @@ const { auth } = require("firebase-admin");
 const qrcode = require("qrcode");
 require("dotenv").config();
 const functions = require("firebase-functions");
-const { verifyToken } = require("../../services/FirebaseToken");
+const { verifyToken } = require("../../services/FirebaseToken.js");
 const { MailService } = require("../../services/mail.service");
 
 //This function check if the user is already registered in firebase auth. Then it send an email to the user with a link to validate the email address.
