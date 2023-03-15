@@ -5,7 +5,7 @@ const {
 } = require("../../controllers/v1/auth.controller");
 const { Router } = require("express");
 const { body, query } = require("express-validator");
-const { verifyToken } = require("../../services/FirebaseToken.js");
+const { verifyToken } = require("../../Services/FirebaseToken.js");
 
 const V1AuthRouter = Router();
 
