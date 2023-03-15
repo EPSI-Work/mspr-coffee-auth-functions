@@ -1,19 +1,16 @@
 const nodemailer = require("nodemailer");
 require("dotenv").config();
+const functions = require("firebase-functions");
 
-
-exports.Mail = class Mail {
+exports.MailService = class MailService {
     constructor(transporter) {
         this.transporter = nodemailer.createTransport({
-            host: "smtp-mail.outlook.com",
+            host: functions.config().app.email_host,
             secureConnection: false,
             port: 587,
-            tls: {
-                ciphers: "SSLv3",
-            },
             auth: {
-                user: process.env.FROM,
-                pass: process.env.PASSWD,
+                user: functions.config().app.email_username,
+                pass: functions.config().app.email_password,
             },
         });
     }
@@ -21,11 +18,9 @@ exports.Mail = class Mail {
         return new Promise((resolve, reject) => {
             // send mail with defined transport object
             this.transporter.sendMail(mailOptions, (err, info) => {
-                if (err)
-                    return reject(err);
+                if (err) return reject(err);
                 return resolve("SignIn");
-
-            })
-        })
+            });
+        });
     }
-}
+};
