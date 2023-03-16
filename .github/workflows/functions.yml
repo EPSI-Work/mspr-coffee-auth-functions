@@ -20,8 +20,9 @@ jobs:
       - name: Deploy Functions
         run: |
           for dir in ${{ steps.find-dirs.outputs.dirs }}; do
-            echo "${{ secrets.SA_JSON_FILE }}" > ./temp_sa.json
-            mv ./temp_sa.json ./assets/service-account.json
+            echo "${{ secrets.SA_JSON_FILE }}" > ./service-account.json
+            mkdir -p assets
+            mv ./service-account.json assets/
             echo "Installing dependencies in directory $dir"
             npm install --prefix $dir
             echo "Deploying functions in directory $dir"
