@@ -20,13 +20,13 @@ jobs:
       - name: Deploy Functions
         run: |
           for dir in ${{ steps.find-dirs.outputs.dirs }}; do
-            echo "${{ secrets.SA_JSON_FILE }}" > ./service-account.json
-            mkdir -p assets
-            mv ./service-account.json assets/
             echo "Installing dependencies in directory $dir"
             npm install --prefix $dir
             echo "Deploying functions in directory $dir"
             cd $dir
+            echo "${{ secrets.SA_JSON_FILE }}" > ./service-account.json
+            mkdir -p assets
+            mv ./service-account.json assets/
             firebase functions:config:set \
             app.credentials_file_name="credentials" \
             app.email_username="${{ secrets.EMAIL_USERNAME }}" \
