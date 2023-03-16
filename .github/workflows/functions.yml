@@ -24,7 +24,7 @@ jobs:
             npm install --prefix $dir
             echo "Deploying functions in directory $dir"
             cd $dir
-            echo "${SA_JSON_FILE}" > ./service-account.json
+            echo ${SA_JSON_FILE} > ./service-account.json
             mkdir -p assets
             mv ./service-account.json assets/
             firebase functions:config:set \
