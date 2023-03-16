@@ -6,10 +6,11 @@
         "shell": "firebase functions:shell",
         "start": "npm run shell",
         "deploy": "firebase deploy --only functions",
+        "export-google-credentials": "export GOOGLE_APPLICATION_CREDENTIALS=\"./assets/service-account.json\"",
         "logs": "firebase functions:log",
         "import-firestore": "sh ./import-firestore.sh",
-        "emulate": "kill-port --port 8080,5001,9099 && firebase emulators:start --import ./import --export-on-exit",
-        "test": "kill-port --port 8080,5001,9099 && firebase emulators:exec --import ./import 'jest --detectOpenHandles'"
+        "emulate": "kill-port --port 8080,5001,9099 && npm run export-google-credentials && firebase emulators:start --import ./import --export-on-exit",
+        "test": "kill-port --port 8080,5001,9099 && npm run export-google-credentials && firebase emulators:exec --import ./import 'jest --detectOpenHandles'"
     },
     "engines": {
         "node": "16"
@@ -21,8 +22,11 @@
         "express-validator": "^6.15.0",
         "firebase-admin": "^10.3.0",
         "firebase-functions": "^3.24.1",
+        "google-auth-library": "^8.7.0",
         "jest": "^29.5.0",
+        "jsonwebtoken": "^9.0.0",
         "mailgun.js": "^8.2.1",
+        "node-rsa": "^1.1.1",
         "nodemailer": "^6.9.1",
         "qrcode": "^1.5.1",
         "supertest": "^6.3.3"

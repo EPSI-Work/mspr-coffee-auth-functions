@@ -66,3 +66,8 @@ package-lock.json
 
 # dotenv environment variables file
 .env
+
+# Service account key file
+service-account.json
+
+.runtimeconfig.json
