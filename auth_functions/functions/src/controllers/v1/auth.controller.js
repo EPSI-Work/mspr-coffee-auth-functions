@@ -4,7 +4,6 @@ const { auth } = require("firebase-admin");
 const qrcode = require("qrcode");
 require("dotenv").config();
 const functions = require("firebase-functions");
-const { verifyToken } = require("../../Services/FirebaseToken.js");
 const { MailService } = require("../../services/mail.service");
 
 //This function check if the user is already registered in firebase auth. Then it send an email to the user with a link to validate the email address.
@@ -14,31 +13,33 @@ exports.V1SignInWithEmail = async(request, response) => {
         return response.status(400).json({ errors: errors.array() });
     }
     const { email } = request.body;
-    const user = await auth().getUserByEmail(email);
-    const firebaseToken = await auth().createCustomToken(user.uid);
-    const url = `${
-    functions.config().app.base_url
-  }/v1/validateQrCode?firebaseToken=${firebaseToken}`;
-
+    const user = await auth()
+        .getUserByEmail(email)
+        .catch((err) => {
+            return null;
+        });
     if (!user) {
         return response.status(400).json({
             message: "User not found",
         });
     }
+    const firebaseToken = await auth().createCustomToken(user.uid);
+    const url = `${
+    functions.config().app.base_url
+  }/v1/validateQrCode?firebaseToken=${firebaseToken}`;
     const mailService = new MailService();
-    const mailOptions = {
-        from: functions.config().app.email_from,
-        to: "baptiste.lecat44@gmail.com",
-        subject: "Hello ✔",
-        text: "Hello world?",
-        html: `<b>Hello world?</b><br>Bonjour ${
-      user.displayName != undefined || user.displayName != null
-        ? user.displayName
-        : user.email
-    } voici le lien vers votre QRCode: ${url}`,
-    };
     await mailService
-        .sendMail(mailOptions)
+        .sendMail({
+            from: functions.config().app.email_from,
+            to: "baptiste.lecat44@gmail.com",
+            subject: "Hello ✔",
+            text: "Hello world?",
+            html: `<b>Hello world?</b><br>Bonjour ${
+        user.displayName != undefined || user.displayName != null
+          ? user.displayName
+          : user.email
+      } voici le lien vers votre QRCode: ${url}`,
+        })
         .then((res) => {
             return response.status(200).json({
                 message: "Sign in with email",

@@ -26,6 +26,13 @@ describe("V1SignInWithEmail", () => {
         expect(response.status).toBe(400);
     }, 6000);
 
+    it("should return an error when the email given doesn't exist.", async() => {
+        const response = await request(app).post("/v1/signInWithEmail").send({
+            email: "testnotexist@gmail.com",
+        });
+        expect(response.status).toBe(400);
+    }, 6000);
+
     it("should return a success message when the email is send.", async() => {
         const response = await request(app).post("/v1/signInWithEmail").send({
             email: "test@gmail.com",
