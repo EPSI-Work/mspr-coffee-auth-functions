@@ -38,7 +38,7 @@ jobs:
             firebase emulators:exec --import ./import 'jest --forceExit --detectOpenHandles'
           done
         env:
-          GOOGLE_APPLICATION_CREDENTIALS: ${{secrets.FIREBASE_TOKEN}}
+          GOOGLE_APPLICATION_CREDENTIALS: ${{secrets.SA_JSON_FILE}}
       - name: Deploy Functions
         run: |
           for dir in ${{ steps.find-dirs.outputs.dirs }}; do
@@ -52,12 +52,12 @@ jobs:
             app.email_host="${{ secrets.EMAIL_HOST }}" \
             app.email_from="${{ secrets.EMAIL_FROM }}" \
             app.base_url="$BASE_URL" \
-            --project ${{ secrets.PROJECT_ID }} \
-            --token "${{ secrets.FIREBASE_TOKEN }}"
+            --project ${{ secrets.PROJECT_ID }}
             firebase deploy --only functions:config --project ${{ secrets.PROJECT_ID }} --token "${{ secrets.FIREBASE_TOKEN }}"
             echo "Deploying functions"
             firebase deploy --only functions --project ${{ secrets.PROJECT_ID }} --token "${{ secrets.FIREBASE_TOKEN }}"
           done
         env:
+          GOOGLE_APPLICATION_CREDENTIALS: ${{secrets.SA_JSON_FILE}}
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
           PROJECT_ID: ${{ secrets.PROJECT_ID }}
