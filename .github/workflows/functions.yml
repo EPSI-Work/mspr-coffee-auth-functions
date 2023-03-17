@@ -36,7 +36,7 @@ jobs:
             echo "Run the test in $dir"
             cd $dir
             ls
-            firebase emulators:exec --project mspr-epsi-coffee --import ./import 'jest --forceExit --detectOpenHandles'
+            firebase emulators:exec --project mspr-epsi-coffee --import ./import 'npx jest --forceExit --detectOpenHandles'
           done
         env:
           GOOGLE_APPLICATION_CREDENTIALS: ./assets/service-account.json
