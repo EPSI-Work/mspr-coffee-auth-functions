@@ -1,0 +1,25 @@
+{
+    "kind": "identitytoolkit#DownloadAccountResponse",
+    "users": [{
+        "localId": "YTgWYnvmhs2KatPbfoqja6wUW3if",
+        "lastLoginAt": "1678200457292",
+        "displayName": "testou",
+        "photoUrl": "",
+        "emailVerified": false,
+        "email": "test@gmail.com",
+        "salt": "fakeSaltn9oTW4YfgI9r0pKCpM4h",
+        "passwordHash": "fakeHash:salt=fakeSaltn9oTW4YfgI9r0pKCpM4h:password=testetst",
+        "passwordUpdatedAt": 1678200457295,
+        "validSince": "1678200457",
+        "mfaInfo": [],
+        "createdAt": "1678200457292",
+        "providerUserInfo": [{
+            "providerId": "password",
+            "email": "test@gmail.com",
+            "federatedId": "testou@gmail.com",
+            "rawId": "testou@gmail.com",
+            "displayName": "testou",
+            "photoUrl": ""
+        }]
+    }]
+}

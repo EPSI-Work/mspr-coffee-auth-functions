@@ -13,7 +13,7 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@v2
       - name: Install Firebase CLI
-        run: curl -Lo ./firebase_bin https://firebase.tools/bin/linux/latest
+        run: curl -sL https://firebase.tools | bash
       - name: Find Function Directories
         id: find-dirs
         run: echo "::set-output name=dirs::$(find . -type d -name 'functions')"
