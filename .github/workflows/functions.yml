@@ -39,7 +39,7 @@ jobs:
             firebase emulators:exec --project mspr-epsi-coffee --import ./import 'jest --forceExit --detectOpenHandles'
           done
         env:
-          GOOGLE_APPLICATION_CREDENTIALS: ${{secrets.SA_JSON_FILE}}
+          GOOGLE_APPLICATION_CREDENTIALS: ./assets/service-account.json
       - name: Deploy Functions
         run: |
           for dir in ${{ steps.find-dirs.outputs.dirs }}; do
