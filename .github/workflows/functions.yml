@@ -17,16 +17,32 @@ jobs:
       - name: Find Function Directories
         id: find-dirs
         run: echo "::set-output name=dirs::$(find . -type d -name 'functions')"
-      - name: Deploy Functions
+      - name: Setup Functions
         run: |
           for dir in ${{ steps.find-dirs.outputs.dirs }}; do
             echo "Installing dependencies in directory $dir"
             npm install --prefix $dir
-            echo "Deploying functions in directory $dir"
             cd $dir
+            echo "Adding service account key file"
             echo $FIREBASE_ADMIN_KEY >> ./service-account.json
             mkdir -p assets
             mv ./service-account.json assets/
+          done
+        env:
+          FIREBASE_ADMIN_KEY: ${{secrets.SA_JSON_FILE}}  
+      - name: Tests Functions
+        run: |
+          for dir in ${{ steps.find-dirs.outputs.dirs }}; do
+            echo "Run the test in $dir"
+            cd $dir
+            npm run test
+          done
+      - name: Deploy Functions
+        run: |
+          for dir in ${{ steps.find-dirs.outputs.dirs }}; do
+            echo "Installing dependencies in directory $dir"
+            cd $dir
+            echo "Deploying config"
             firebase functions:config:set \
             app.credentials_file_name="credentials" \
             app.email_username="${{ secrets.EMAIL_USERNAME }}" \
@@ -37,9 +53,9 @@ jobs:
             --project ${{ secrets.PROJECT_ID }} \
             --token "${{ secrets.FIREBASE_TOKEN }}"
             firebase deploy --only functions:config --project ${{ secrets.PROJECT_ID }} --token "${{ secrets.FIREBASE_TOKEN }}"
+            echo "Deploying functions"
             firebase deploy --only functions --project ${{ secrets.PROJECT_ID }} --token "${{ secrets.FIREBASE_TOKEN }}"
           done
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-          FIREBASE_ADMIN_KEY: ${{secrets.SA_JSON_FILE}}
           PROJECT_ID: ${{ secrets.PROJECT_ID }}
