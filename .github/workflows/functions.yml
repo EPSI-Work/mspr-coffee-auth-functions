@@ -35,7 +35,7 @@ jobs:
           for dir in ${{ steps.find-dirs.outputs.dirs }}; do
             echo "Run the test in $dir"
             cd $dir
-            firebase emulators:exec --import ./import 'jest --forceExit --detectOpenHandles'
+            firebase emulators:exec --project mspr-epsi-coffee --import ./import 'jest --forceExit --detectOpenHandles'
           done
         env:
           GOOGLE_APPLICATION_CREDENTIALS: ${{secrets.SA_JSON_FILE}}
