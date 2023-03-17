@@ -57,11 +57,10 @@ jobs:
             app.email_from="${{ secrets.EMAIL_FROM }}" \
             app.base_url="$BASE_URL" \
             --project ${{ secrets.PROJECT_ID }}
-            firebase deploy --only functions:config --project ${{ secrets.PROJECT_ID }} --token "${{ secrets.FIREBASE_TOKEN }}"
+            firebase deploy --only functions:config --project ${{ secrets.PROJECT_ID }}
             echo "Deploying functions"
-            firebase deploy --only functions --project ${{ secrets.PROJECT_ID }} --token "${{ secrets.FIREBASE_TOKEN }}"
+            firebase deploy --only functions --project ${{ secrets.PROJECT_ID }}
           done
         env:
           GOOGLE_APPLICATION_CREDENTIALS: ${{secrets.SA_JSON_FILE}}
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
           PROJECT_ID: ${{ secrets.PROJECT_ID }}
