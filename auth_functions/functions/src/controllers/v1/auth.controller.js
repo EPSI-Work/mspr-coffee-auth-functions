@@ -54,16 +54,15 @@ exports.V1ValidateQrCode = async(request, response) => {
         return response.status(400).json({ errors: errors.array() });
     }
     const { firebaseToken } = request.query;
-    qrcode.toFile("qrcode.png", firebaseToken, (err) => {
-        if (err)
-            return response.status(400).json({
-                message: "Qrcode didn't created",
-            });
-    });
-    response.write("cc");
-    return response.status(210).json({
-        message: "Validate QR code",
-    });
+    // Generate the QR code data URL
+    const dataUrl = await qrcode.toDataURL(firebaseToken);
+    // Set the response headers
+    response.setHeader("Content-Type", "image/png");
+    response.setHeader("Content-Disposition", "inline; filename=qr.png");
+    // Write the image data to the response stream
+    const imageData = dataUrl.replace(/^data:image\/png;base64,/, "");
+    const imageBuffer = Buffer.from(imageData, "base64");
+    response.send(imageBuffer);
 };
 
 exports.V1VerifyFirebaseToken = functions

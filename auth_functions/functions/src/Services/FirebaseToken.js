@@ -1,9 +1,5 @@
-const http = require("http");
-const functions = require("firebase-functions");
 const NodeRSA = require("node-rsa");
 const jwt = require("jsonwebtoken");
-const { GoogleAuth } = require("google-auth-library");
-const admin = require("firebase-admin");
 
 exports.verifyToken = async(firebaseToken) => {
     return new Promise(async(resolve, reject) => {
@@ -21,9 +17,16 @@ exports.verifyToken = async(firebaseToken) => {
             },
             (err, decoded) => {
                 if (err) {
-                    reject("Token is invalid!");
+                    reject({
+                        code: 401,
+                        message: "Invalid Firebase token",
+                    });
                 } else {
-                    resolve(decoded.uid);
+                    resolve({
+                        code: 200,
+                        message: "Valid Firebase token",
+                        uid: decoded.uid,
+                    });
                 }
             }
         );
