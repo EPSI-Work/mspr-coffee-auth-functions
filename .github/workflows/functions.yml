@@ -27,9 +27,12 @@ jobs:
             echo $FIREBASE_ADMIN_KEY >> ./service-account.json
             mkdir -p assets
             mv ./service-account.json assets/
+            echo "Adding runtime config"
+            echo $RUNTIME_CONFIG_JSON >> ./.runtimeconfig.json
           done
         env:
-          FIREBASE_ADMIN_KEY: ${{secrets.SA_JSON_FILE}}  
+          FIREBASE_ADMIN_KEY: ${{secrets.SA_JSON_FILE}} 
+          RUNTIME_CONFIG: ${{secrets.RUNTIME_CONFIG_JSON}} 
       - name: Tests Functions
         run: |
           for dir in ${{ steps.find-dirs.outputs.dirs }}; do
