@@ -35,8 +35,10 @@ jobs:
           for dir in ${{ steps.find-dirs.outputs.dirs }}; do
             echo "Run the test in $dir"
             cd $dir
-            firebase emulators:exec --token "${{ secrets.FIREBASE_TOKEN }}" --import ./import 'jest --forceExit --detectOpenHandles'
+            firebase emulators:exec --import ./import 'jest --forceExit --detectOpenHandles'
           done
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: ${{secrets.FIREBASE_TOKEN}}
       - name: Deploy Functions
         run: |
           for dir in ${{ steps.find-dirs.outputs.dirs }}; do
