@@ -24,7 +24,7 @@ jobs:
             npm install --prefix $dir
             echo "Deploying functions in directory $dir"
             cd $dir
-            echo $SA_JSON_FILE > ./service-account.json
+            echo $FIREBASE_ADMIN_KEY >> ./service-account.json
             mkdir -p assets
             mv ./service-account.json assets/
             firebase functions:config:set \
@@ -41,4 +41,5 @@ jobs:
           done
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+          FIREBASE_ADMIN_KEY: ${{secrets.SA_JSON_FILE}}
           PROJECT_ID: ${{ secrets.PROJECT_ID }}
