@@ -28,7 +28,7 @@ jobs:
             mkdir -p assets
             mv ./service-account.json assets/
             echo "Adding runtime config"
-            echo $RUNTIME_CONFIG_JSON >> ./.runtimeconfig.json
+            echo $RUNTIME_CONFIG >> ./.runtimeconfig.json
           done
         env:
           FIREBASE_ADMIN_KEY: ${{secrets.SA_JSON_FILE}} 
