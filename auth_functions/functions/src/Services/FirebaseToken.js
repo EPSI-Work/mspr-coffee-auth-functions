@@ -17,9 +17,11 @@ exports.verifyToken = async(firebaseToken) => {
             },
             (err, decoded) => {
                 if (err) {
+                    console.log(err.message);
                     reject({
                         code: 401,
                         message: "Invalid Firebase token",
+                        reason: err.message,
                     });
                 } else {
                     resolve({

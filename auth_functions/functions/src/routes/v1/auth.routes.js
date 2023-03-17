@@ -28,7 +28,7 @@ V1AuthRouter.get(
     .withMessage("Token cannot be empty.")
     .custom(async(firebaseToken) => {
         return await verifyToken(firebaseToken).catch((err) => {
-            return Promise.reject(err.message);
+            return Promise.reject({ message: err.message, reason: err.reason });
         });
     }),
     V1ValidateQrCode
