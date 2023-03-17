@@ -35,7 +35,7 @@ jobs:
           for dir in ${{ steps.find-dirs.outputs.dirs }}; do
             echo "Run the test in $dir"
             cd $dir
-            npm run test
+            npm run test-ci
           done
       - name: Deploy Functions
         run: |
