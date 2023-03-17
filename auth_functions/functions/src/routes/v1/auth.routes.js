@@ -34,16 +34,4 @@ V1AuthRouter.get(
     V1ValidateQrCode
 );
 
-V1AuthRouter.post(
-    "/verifyToken",
-    body("firebaseToken").exists().withMessage("Firebase Token is required"),
-    V1VerifyFirebaseToken
-);
-
-V1AuthRouter.post(
-    "/verifyToken",
-    body("firebaseToken").exists().withMessage("Firebase Token is required"),
-    V1VerifyFirebaseToken
-);
-
 exports.V1AuthRouter = V1AuthRouter;

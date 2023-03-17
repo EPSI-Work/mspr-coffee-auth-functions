@@ -16,10 +16,9 @@ exports.V1SignInWithEmail = async(request, response) => {
     const { email } = request.body;
     const user = await auth().getUserByEmail(email);
     const firebaseToken = await auth().createCustomToken(user.uid);
-    console.log(firebaseToken);
     const url = `${
     functions.config().app.base_url
-  }/v1/auth/validateQrCode?firebaseToken=${firebaseToken}`;
+  }/v1/validateQrCode?firebaseToken=${firebaseToken}`;
 
     if (!user) {
         return response.status(400).json({
@@ -32,7 +31,11 @@ exports.V1SignInWithEmail = async(request, response) => {
         to: "baptiste.lecat44@gmail.com",
         subject: "Hello ✔",
         text: "Hello world?",
-        html: `<b>Hello world?</b> Bonjour ${email} voici votre url de redirection afin de scanner votre qrcode: ${url}`,
+        html: `<b>Hello world?</b><br>Bonjour ${
+      user.displayName != undefined || user.displayName != null
+        ? user.displayName
+        : user.email
+    } voici le lien vers votre QRCode: ${url}`,
     };
     await mailService
         .sendMail(mailOptions)
@@ -64,13 +67,3 @@ exports.V1ValidateQrCode = async(request, response) => {
     const imageBuffer = Buffer.from(imageData, "base64");
     response.send(imageBuffer);
 };
-
-exports.V1VerifyFirebaseToken = functions
-    .region("europe-west1")
-    .https.onRequest(async(request, response) => {
-        //renvoi vers checktoken
-        const firebaseToken = request.body.firebaseToken;
-        const answer = await verifyToken(firebaseToken);
-        if (answer.code === 200) response.status(200).send(answer.userJson);
-        response.status(answer.code).send(answer.error);
-    });
