@@ -47,7 +47,9 @@ jobs:
         uses: codecov/codecov-action@v3
         with:
           fail_ci_if_error: true
-          directory: ./coverage
+          directory: functions/coverage
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
       - name: Deploy Functions
         run: |
           for dir in ${{ steps.find-dirs.outputs.dirs }}; do
