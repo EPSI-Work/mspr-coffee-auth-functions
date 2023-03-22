@@ -39,10 +39,15 @@ jobs:
             echo "Run the test in $dir"
             cd $dir
             ls
-            firebase emulators:exec --project mspr-epsi-coffee --import ./import 'npx jest --forceExit --detectOpenHandles'
+            firebase emulators:exec --project mspr-epsi-coffee --import ./import 'npx jest --forceExit --silent=false --coverage --detectOpenHandles'
           done
         env:
           GOOGLE_APPLICATION_CREDENTIALS: ./assets/service-account.json
+      - name: Upload to codecov.io
+        uses: codecov/codecov-action@v3
+        with:
+          fail_ci_if_error: true
+          directory: ./coverage
       - name: Deploy Functions
         run: |
           for dir in ${{ steps.find-dirs.outputs.dirs }}; do

@@ -10,7 +10,7 @@
         "logs": "firebase functions:log",
         "import-firestore": "sh ./import-firestore.sh",
         "emulate": "kill-port --port 8080,5001,9099 && npm run export-google-credentials && firebase emulators:start --import ./import --export-on-exit",
-        "test": "kill-port --port 8080,5001,9099 && npm run export-google-credentials && firebase emulators:exec --import ./import 'jest --detectOpenHandles'",
+        "test": "kill-port --port 8080,5001,9099 && npm run export-google-credentials && firebase emulators:exec --import ./import 'jest --silent=false --coverage --detectOpenHandles'",
         "test-ci": "firebase emulators:exec --import ./import 'npx jest --forceExit --detectOpenHandles'"
     },
     "engines": {
